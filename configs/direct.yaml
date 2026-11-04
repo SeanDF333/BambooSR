@@ -1,0 +1,28 @@
+method: bamboosr
+variant: direct
+training:
+  epochs: 160
+  patience: 15
+  min_delta: 0.0001
+  selection: nll
+  scheduler_patience: 5
+  max_minutes: 0
+  baseline_protocol: true
+  batch_size: 8
+  workers: 2
+  width: 128
+  lr: 0.0001
+  train_channels: 32
+  eval_channels: 64
+  lr_channels: 16
+  consistency: 0
+  residual_penalty: 0
+  lr_radius: 32
+  hr_radius: 12.5
+  wall_radius: 592.5
+  seed: 42
+protocol:
+  optimizer: Adam
+  grad_clip: 1
+  scheduler_factor: 0.5
+  checkpoint_selection: validation_poisson_nll

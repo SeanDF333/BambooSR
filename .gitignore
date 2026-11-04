@@ -1,0 +1,20 @@
+# Dataset files are distributed as versioned GitHub Release assets.
+/data/*.h5
+/data/*.npz
+
+# Generated training and evaluation artifacts.
+/runs/
+/results/
+/wall_predictions/
+*.pt
+*.pth
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.venv/
+venv/
+.DS_Store
+
+# Website draft is paused until logo and visual direction are supplied.
+/docs/
+/FIGURE_CREDITS.md

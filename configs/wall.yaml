@@ -1,0 +1,7 @@
+polygon_sides: 24
+apothem_mm: 592.5
+seed: 42
+calibration_folds: 2
+fit_min_mm: -80
+fit_max_mm: 80
+fit_bin_mm: 1

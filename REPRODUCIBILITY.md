@@ -1,0 +1,11 @@
+# Reproducibility notes
+
+The recorded training seed is 42. Training uses validation Poisson NLL for checkpoint selection, Adam, batch size 8, 32 sampled HR channels per event, 64-channel validation chunks, maximum 160 epochs, early-stop patience 15 with a 1e-4 minimum improvement, and ReduceLROnPlateau (patience 5, factor 0.5). BambooSR uses learning rate 1e-4; model-specific baseline rates are in their configs. The loss is HR Poisson NLL only. There is no LR-consistency, residual, position, or auxiliary physics loss.
+
+The model's encoder consumes 169 masked charge fractions plus `log1p(total PE)/10`, producing a 32-dimensional event code. A fixed 2×64 Gaussian Fourier matrix encodes coordinates scaled by 650 mm. A 6-output head sets an effective source and three positive scales. Query-dependent direct and 24-anchor boundary-response features enter a 38→32→128 adapter added before the first decoder ReLU. The final decoder uses Softplus. The 128-point finite-area renderer uses the benchmark's normalized weights and multiplies by observed LR total. HR totals are not forced to equal LR totals.
+
+The public simulation evaluator reports per-channel RMSE, MAE, Poisson deviance, per-event total MAE and relative MAE, total bias, shape TV, edge RMSE for source radius ≥520 mm, and PMT3-region RMSE for HR channels within 32 mm of the masked PMT center. It does not use test RMSE to choose a checkpoint.
+
+The real wall analysis uses a 24-gon with 592.5 mm apothem, seed-42 shared event folds, sector-wise opposite-fold median scaling, a 1 mm histogram over [-80,80] mm, and a split-normal fit. The reported `sigma_left_mm` is the fitted inward width. The wall sample has no true XY, so this measure is not an event-level location RMSE.
+
+Expected output files: training writes `config.json`, `history.jsonl`, `last.pt`, and validation-selected `best.pt` under the selected run directory. Evaluation writes a JSON file if `--output` is given. Inference writes an NPZ with HR counts and COG positions. Wall analysis writes a JSON file if requested. Full training may require several GPU hours per model; actual time depends on hardware and queueing. Bitwise-identical retraining across PyTorch/CUDA versions is not claimed.

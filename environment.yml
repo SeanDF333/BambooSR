@@ -1,0 +1,13 @@
+name: bamboosr
+channels:
+  - conda-forge
+dependencies:
+  - python=3.10
+  - pip
+  - pip:
+      - torch==2.4.0
+      - numpy==2.2.5
+      - scipy==1.14.0
+      - h5py==3.12.1
+      - matplotlib==3.10.8
+      - PyYAML==6.0.2
